@@ -22,20 +22,24 @@ public class client {
 		    BufferedWriter bw = new BufferedWriter(
 		      new OutputStreamWriter(socket.getOutputStream())
 		    );
-		    
-		    Scanner keyboard = new Scanner(System.in);
-		    String stringToSend = keyboard.nextLine();
-		    
-		    bw.write(stringToSend + System.lineSeparator());
-		    bw.flush();
-		    
-		    String received = br.readLine();
-		      System.out.printf("Sent: %s%nReceived: %s%n",
-		          stringToSend, received
-		      );
-		    		
-		    bw.write("QUIT" + System.lineSeparator());
-		    bw.flush();
+			boolean stop = true;
+
+		    while (stop) {
+				Scanner keyboard = new Scanner(System.in);
+				String stringToSend = keyboard.nextLine();
+
+
+				bw.write(stringToSend + System.lineSeparator());
+				bw.flush();
+				System.out.println("messaggio inviato");
+				String received = br.readLine();
+				System.out.printf("Sent: %s%nReceived: %s%n",
+						stringToSend, received
+				);
+				System.out.println("controllo BYE");
+				stop = !stringToSend.equals("BYE");
+			}
+		 System.out.println("chiudo socket");
 		    socket.close();
 		  }
 }

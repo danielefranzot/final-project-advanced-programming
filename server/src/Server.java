@@ -12,11 +12,13 @@ import java.net.Socket;
  */
 public class Server {
     private final int port;
-    private final String requestCommand;
+    private String requestCommand;
 
-    public Server(int port, String requestCommand){
+    private final String quitCommand = "BYE";
+    private int okResponseCounter = 0;
+
+    public Server(int port){
         this.port = port;
-        this.requestCommand = requestCommand;
     }
 
     public void run() throws IOException{
@@ -35,20 +37,15 @@ public class Server {
       return input;
     }
     public String getQuitCommand() {
-      return requestCommand;
+        return quitCommand;
     }
 
-    
-    /*public void main(String[] args) {
-		Server s = new Server(10000, "QUIT");
-	
-		try {
-			s.run();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
+    public String getRequestCommand() {
+        return requestCommand;
+    }
 
-    
+    public int getOkResponseCounter(){return this.okResponseCounter;}
+
+    public void incrementOkResponseCounter(){this.okResponseCounter++;}
+
 }
