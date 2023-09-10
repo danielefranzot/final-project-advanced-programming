@@ -13,9 +13,14 @@ import java.net.Socket;
 public class Server {
     private final int port;
     private String requestCommand;
-
     private final String quitCommand = "BYE";
     private int okResponseCounter = 0;
+
+    private long averageResponseTime;
+
+    private long totalResponseTimes;
+
+    private long maxResponseTime;
 
     public Server(int port){
         this.port = port;
@@ -48,4 +53,33 @@ public class Server {
 
     public void incrementOkResponseCounter(){this.okResponseCounter++;}
 
+    public long getAverageResponseTime() {
+        return averageResponseTime;
+    }
+
+    private void updateAverageTime() {
+        this.averageResponseTime = this.totalResponseTimes / this.okResponseCounter;
+    }
+
+
+    public long getTotalResponseTimes() {
+        return totalResponseTimes;
+    }
+
+    public long getMaxResponseTime() {
+        return maxResponseTime;
+    }
+
+    public synchronized void addResponseTime(long newResponseTime) {//TODO aggiungere synchronized anche su update avg time?
+        this.totalResponseTimes = newResponseTime;
+        if(this.okResponseCounter == 0){
+            this.averageResponseTime = newResponseTime;
+            this.maxResponseTime = newResponseTime;
+        }else{
+            this.updateAverageTime();
+            this.maxResponseTime = Math.max(this.maxResponseTime, newResponseTime);
+        }
+
+    }
 }
+//TODO quando un client si disconnette (solo nel caso in cui si disconnette  interrompendo l'esecuzione e non con BYE) il while entra in loop e non si riferma allo start()
