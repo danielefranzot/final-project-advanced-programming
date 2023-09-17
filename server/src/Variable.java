@@ -58,9 +58,21 @@ public class Variable {
         return matcher.matches();
     }
 
+    public BigDecimal getValueFromArray(int index) {
+        return this.valueArray[index];
+    }
+
+    public int getValueArraySize() {
+        return valueArray.length;
+    }
+
     public void printArray(){
         for (BigDecimal value : this.valueArray) {
             System.out.println(value.toString());
         }
+    }
+
+    public BigDecimal[] getValueArray() {
+        return valueArray;
     }
 }
